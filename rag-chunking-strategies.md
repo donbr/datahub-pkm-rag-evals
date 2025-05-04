@@ -1,4 +1,4 @@
-# **Building and Evaluating Retrieval-Augmented Generation Pipelines: A Practical Walkthrough**
+# Building and Evaluating RAG Pipelines
 
 ## **Part 1: Introduction \- Setting the Stage for Advanced RAG**
 

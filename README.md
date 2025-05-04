@@ -1,4 +1,4 @@
-# RAG Evaluations
+# A Quick Intro
 
 Welcome to my exploration of Retrieval-Augmented Generation (RAG) evaluation techniques and chunking strategies. This site documents my journey understanding how different approaches to document chunking affect RAG system performance.
 
