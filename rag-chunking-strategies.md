@@ -42,7 +42,7 @@ While LangChain provides the building blocks, LangGraph allows us to define this
 Defining the State:  
 The state is the memory or the information that flows through the graph. For a basic RAG pipeline, the state typically needs to hold, at minimum, the user's question and the documents retrieved. A more robust state might track the conversation history, intermediate steps, or generated answers. LangGraph uses Python's TypedDict to define the state structure.25
 
-Python
+```python
 
 from typing import List, TypedDict  
 from typing\_extensions import Annotated  
@@ -54,6 +54,7 @@ class RAGState(TypedDict):
     messages: Annotated\[List, add\_messages\]  
     \# Stores the documents retrieved by the retriever node  
     documents: List\[Document\] \# Assuming Document is imported from langchain\_core.documents
+```
 
 Defining the Nodes:  
 Nodes represent the computational steps or functions in our graph. For a minimal RAG:
@@ -63,7 +64,7 @@ Nodes represent the computational steps or functions in our graph. For a minimal
 * **(Optional) grade\_documents Node:** In more advanced RAG 22, a node could evaluate the relevance of retrieved documents before generation. For our baseline, we'll omit this.  
 * **(Optional) rewrite\_query Node:** An agentic or adaptive RAG might rewrite the query if initial retrieval is poor.22 Omitted in baseline.
 
-Python
+```python
 
 \# Example Node Function (Conceptual)  
 def retrieve\_documents(state: RAGState):  
@@ -81,6 +82,7 @@ def generate\_answer(state: RAGState):
     rag\_chain \= prompt | llm | StrOutputParser() \# Example chain  
     generation \= rag\_chain.invoke({"context": docs, "question": query})  
     return {"messages": \[AIMessage(content=generation)\]} \# Append AI message
+```
 
 Defining the Edges:  
 Edges define the sequence and conditional logic connecting the nodes.
@@ -90,7 +92,7 @@ Edges define the sequence and conditional logic connecting the nodes.
 * **Conditional Edges (Optional):** More complex graphs use conditional edges to route the flow based on the state. For example, after a grade\_documents node, an edge might decide whether to proceed to generate or loop back to rewrite\_query.25 The baseline is linear.  
 * **End Point:** The graph needs an end state, END.25
 
-Python
+```python
 
 from langgraph.graph import StateGraph, END, START
 
@@ -108,6 +110,7 @@ workflow.add\_edge("generate", END) \# After generation, end
 
 \# Compile the graph  
 app \= workflow.compile()
+```
 
 This compiled app represents our executable LangGraph RAG pipeline. It accepts an initial state (containing the user query) and streams the state updates as it progresses through the defined nodes and edges. This baseline structure provides a functional RAG system ready for evaluation. The explicit state management and graph structure offered by LangGraph make it easier to visualize, debug (especially with LangSmith integration 20), and extend compared to simple sequential chains.23
 
@@ -156,7 +159,8 @@ To run RAGAS, we need an evaluation dataset. This dataset typically consists of 
 With the prepared EvaluationDataset, running the RAGAS evaluation is straightforward:
 
 1. **Import evaluate and Metrics:**  
-   Python  
+
+   ```python  
    from ragas import evaluate  
    from ragas.metrics import (  
        faithfulness,  
@@ -164,18 +168,23 @@ With the prepared EvaluationDataset, running the RAGAS evaluation is straightfor
        context\_precision,  
        context\_recall,  
        answer\_correctness \# Requires ground\_truth in dataset  
-   )  
+   )
+   ```  
    *41*  
+
 2. **Configure Evaluator LLM:** RAGAS uses an LLM for judging metrics like Faithfulness and Answer Relevancy. Wrap your chosen LLM (e.g., from OpenAI, Bedrock, Azure) using LangchainLLMWrapper.63  
-   Python  
+
+   ```python  
    from ragas.llms import LangchainLLMWrapper  
    from langchain\_openai import ChatOpenAI \# Or your chosen LLM provider
 
    \# Ensure API keys are set as environment variables  
    evaluator\_llm \= LangchainLLMWrapper(ChatOpenAI(model="gpt-4o")) \# Example
+   ```
 
 3. **Run Evaluation:** Call evaluate(), passing the dataset, metrics list, and evaluator LLM.57  
-   Python  
+
+   ```python  
    results \= evaluate(  
        dataset=evaluation\_dataset, \# Your loaded dataset object  
        metrics=\[  
@@ -189,6 +198,7 @@ With the prepared EvaluationDataset, running the RAGAS evaluation is straightfor
        \# Add embeddings if needed for specific metrics like answer\_relevancy  
        \# embeddings=OpenAIEmbeddings() \# Example  
    )
+   ```
 
 4. **Analyze Results:** The results object contains the scores. You can convert it to a Pandas DataFrame for easier analysis: df \= results.to\_pandas().51
 
@@ -236,7 +246,8 @@ LangChain provides the SemanticChunker class (currently in langchain\_experiment
    pip install langchain\_experimental langchain\_openai
 
 2. **Instantiation:** Create an instance of SemanticChunker, providing an embedding model instance.74  
-   Python  
+
+   ```python  
    from langchain\_experimental.text\_splitter import SemanticChunker  
    from langchain\_openai.embeddings import OpenAIEmbeddings \# Or your chosen embeddings
 
@@ -246,6 +257,7 @@ LangChain provides the SemanticChunker class (currently in langchain\_experiment
        breakpoint\_threshold\_type="percentile", \# Or "standard\_deviation", "interquartile", "gradient"  
        breakpoint\_threshold\_amount=95 \# Adjust threshold value as needed  
    )
+   ```
 
 3. **Key Parameters** 74:  
    * embeddings: (Required) An instance of a LangChain Embeddings class (e.g., OpenAIEmbeddings, HuggingFaceInferenceAPIEmbeddings 79). This model is used internally to calculate sentence similarities.  
@@ -271,14 +283,17 @@ Having defined the semantic chunking strategy and its implementation using Seman
 The core LangGraph orchestration structure (state, nodes, edges defined in Phase 1\) can largely remain the same. The key change lies in *how* the documents are processed *before* being stored and retrieved.
 
 1. **Replace Step 2 (Split):** Instead of using RecursiveCharacterTextSplitter, use the SemanticChunker instance created in Phase 3 (Section 4.3). Apply its .split\_documents() method to the loaded documents.  
-   Python  
+
+   ```python  
    \# Assuming 'loaded\_docs' is the list of Document objects from the Load step  
    \# And 'semantic\_text\_splitter' is the configured SemanticChunker instance
 
    semantic\_chunks \= semantic\_text\_splitter.split\_documents(loaded\_docs)
+   ```
 
 2. **Re-run Step 3 (Store):** Create a *new* vector store index using these semantic\_chunks. It is crucial to use a different index name or collection name (depending on the vector store provider, e.g., Qdrant collection name 25) to keep the semantically chunked data separate from the baseline data stored in Phase 1\. This ensures we are comparing the effect of the chunking strategy alone.  
-   Python  
+
+   ```python  
    \# Assuming 'vectorstore\_provider' is your chosen VectorStore class (e.g., Qdrant, FAISS)  
    \# And 'embeddings' is the same embedding model used before
 
@@ -288,14 +303,17 @@ The core LangGraph orchestration structure (state, nodes, edges defined in Phase
        \# Add specific connection args for your vector store, e.g., URL, API key, collection\_name  
        collection\_name="rag\_semantic\_chunks\_v1" \# Use a distinct name  
    )
+   ```
 
 3. **Update Retriever Configuration:** Ensure the retrieve node function in your LangGraph definition now uses a retriever configured with this *new* semantic\_vectorstore.  
-   Python  
+
+   ```python  
    \# Update the retriever used in the 'retrieve\_documents' node function  
    semantic\_retriever \= semantic\_vectorstore.as\_retriever()
 
    \# Modify the retrieve\_documents node function (or pass retriever via config)  
    \# to use 'semantic\_retriever' instead of the baseline retriever.
+   ```
 
 The generate node and the overall graph flow (app \= workflow.compile()) remain unchanged, but they will now operate on documents retrieved from the semantically chunked index.
 
@@ -314,7 +332,8 @@ Now, evaluate the performance of this modified pipeline using the exact same RAG
 
 1. **Prepare Dataset:** Format the results collected in Section 5.2 (user input, semantic contexts, semantic answers, ground truth) into the RAGAS EvaluationDataset structure.63  
 2. **Run evaluate():** Use the same list of RAGAS metrics (faithfulness, answer\_relevancy, context\_precision, context\_recall, answer\_correctness) and the same evaluator\_llm configuration.  
-   Python  
+
+   ```python  
    \# Assuming 'semantic\_evaluation\_dataset' is the dataset object with semantic RAG results  
    semantic\_results \= evaluate(  
        dataset=semantic\_evaluation\_dataset,  
@@ -328,6 +347,7 @@ Now, evaluate the performance of this modified pipeline using the exact same RAG
        llm=evaluator\_llm  
        \# Add embeddings if needed  
    )
+   ```
 
 ### **5.4. Interpreting Semantic RAG Results**
 
@@ -437,7 +457,7 @@ Ultimately, there is no single "best" chunking strategy. The optimal choice depe
 38. \[2309.15217\] Ragas: Automated Evaluation of Retrieval Augmented Generation - arXiv, accessed May 4, 2025, [https://arxiv.org/abs/2309.15217](https://arxiv.org/abs/2309.15217)  
 39. arXiv:2309.15217v1 \[cs.CL\] 26 Sep 2023, accessed May 4, 2025, [https://arxiv.org/pdf/2309.15217](https://arxiv.org/pdf/2309.15217)  
 40. Community - Arxiv Dives - Oxen.ai, accessed May 4, 2025, [https://www.oxen.ai/community/arxiv-dives](https://www.oxen.ai/community/arxiv-dives)  
-41. Evaluate RAG pipeline using Ragas in Python with watsonx - IBM, accessed May 4, 2025, [https://www.ibm.com/think/tutorials/ragas-rag-evaluation-python-watsonx](https://www.ibm.com/think/tutorials/ragas-rag-evaluation-python-watsonx)  
+41. Evaluate RAG pipeline using Ragas in ```python with watsonx - IBM, accessed May 4, 2025, [https://www.ibm.com/think/tutorials/ragas-rag-evaluation-```python-watsonx](https://www.ibm.com/think/tutorials/ragas-rag-evaluation-```python-watsonx)  
 42. Build a Retrieval Augmented Generation (RAG) App: Part 1 ..., accessed May 4, 2025, [https://python.langchain.com/docs/tutorials/rag/](https://python.langchain.com/docs/tutorials/rag/)  
 43. An evaluation of RAG Retrieval Chunking Methods | VectorHub by ..., accessed May 4, 2025, [https://superlinked.com/vectorhub/articles/evaluation-rag-retrieval-chunking-methods](https://superlinked.com/vectorhub/articles/evaluation-rag-retrieval-chunking-methods)  
 44. Advanced RAG on Hugging Face documentation using LangChain - Hugging Face Open-Source AI Cookbook, accessed May 4, 2025, [https://huggingface.co/learn/cookbook/advanced\_rag](https://huggingface.co/learn/cookbook/advanced_rag)  
@@ -474,7 +494,7 @@ Ultimately, there is no single "best" chunking strategy. The optimal choice depe
 75. Adding a max chunk size with SemanticChunker \#18014 - GitHub, accessed May 4, 2025, [https://github.com/langchain-ai/langchain/discussions/18014](https://github.com/langchain-ai/langchain/discussions/18014)  
 76. SemanticChunker — LangChain documentation, accessed May 4, 2025, [https://api.python.langchain.com/en/latest/experimental/text\_splitter/langchain\_experimental.text\_splitter.SemanticChunker.html](https://api.python.langchain.com/en/latest/experimental/text_splitter/langchain_experimental.text_splitter.SemanticChunker.html)  
 77. Langchain Semantic Chunker Overview - Restack, accessed May 4, 2025, [https://www.restack.io/docs/langchain-knowledge-semantic-chunker-cat-ai](https://www.restack.io/docs/langchain-knowledge-semantic-chunker-cat-ai)  
-78. langchain\_experimental.text\_splitter.SemanticChunker - Langchain Python API Reference, accessed May 4, 2025, [https://api.python.langchain.com/en/latest/text\_splitter/langchain\_experimental.text\_splitter.SemanticChunker.html](https://api.python.langchain.com/en/latest/text_splitter/langchain_experimental.text_splitter.SemanticChunker.html)  
+78. langchain\_experimental.text\_splitter.SemanticChunker - Langchain python API Reference, accessed May 4, 2025, [https://api.python.langchain.com/en/latest/text\_splitter/langchain\_experimental.text\_splitter.SemanticChunker.html](https://api.python.langchain.com/en/latest/text_splitter/langchain_experimental.text_splitter.SemanticChunker.html)  
 79. Semantic Chunking Without OpenAI · langchain-ai langchain · Discussion \#17072 - GitHub, accessed May 4, 2025, [https://github.com/langchain-ai/langchain/discussions/17072](https://github.com/langchain-ai/langchain/discussions/17072)  
 80. 8 Types of Chunking for RAG Systems - Analytics Vidhya, accessed May 4, 2025, [https://www.analyticsvidhya.com/blog/2025/02/types-of-chunking-for-rag-systems/](https://www.analyticsvidhya.com/blog/2025/02/types-of-chunking-for-rag-systems/)  
 81. Benchmarking and Evaluating RAG - Part 1 - NeoITO Blog, accessed May 4, 2025, [https://www.neoito.com/blog/benchmarking-and-evaluating-rag-part-1/](https://www.neoito.com/blog/benchmarking-and-evaluating-rag-part-1/)
