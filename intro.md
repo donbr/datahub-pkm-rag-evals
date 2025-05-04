@@ -1,8 +1,8 @@
-# My Personal Knowledge Management (PKM) Journey
+# My RAG Evaluations Journey
 
 ## Introduction
 
-Welcome to my PKM system! This file serves as a central hub where I capture, organize, and synthesize valuable information to enhance my learning and productivity journey. Here, you'll find curated insights, notes, and reflections on various topics that I'm exploring and mastering.
+Welcome to my exploration of Retrieval-Augmented Generation (RAG) evaluation techniques and chunking strategies. This site documents my journey understanding how different approaches to document chunking affect RAG system performance, and how specialized evaluation metrics can help measure these effects systematically.
 
 ## Table of Contents
 
@@ -10,94 +10,88 @@ Welcome to my PKM system! This file serves as a central hub where I capture, org
 2. [Knowledge Areas](#knowledge-areas)
 3. [Latest Insights](#latest-insights)
 4. [Tools and Techniques](#tools-and-techniques)
-5. [Personal Growth](#personal-growth)
-6. [Collaboration and Sharing](#collaboration-and-sharing)
-7. [Next Steps](#next-steps)
+5. [Resources](#resources)
+6. [Next Steps](#next-steps)
 
 ---
 
 ## Overview
 
-In this section, I provide an overview of my PKM system and how it supports my personal and professional endeavors. It outlines the purpose, benefits, and structure of my approach to knowledge management.
+Retrieval-Augmented Generation (RAG) systems enhance Large Language Models (LLMs) by retrieving relevant information from external knowledge sources before generating responses. This approach addresses the limitations of LLMs related to knowledge cutoffs, hallucinations, and reasoning over specific domains.
+
+Two critical aspects of RAG systems are:
+
+1. **Chunking strategies** - How documents are split into manageable pieces for indexing and retrieval
+2. **Evaluation methods** - How we measure the effectiveness of our RAG system in providing accurate, relevant, and faithful answers
+
+This site documents my experiments with different chunking strategies and their impact on various evaluation metrics, helping to build more effective RAG systems.
 
 ---
 
 ## Knowledge Areas
 
-### Technology Trends
+This exploration covers several key knowledge areas:
 
-I explore emerging technologies such as artificial intelligence, blockchain, and cybersecurity, documenting their implications and applications in various industries.
-
-### Leadership Development
-
-Notes and resources on leadership principles, effective management strategies, and organizational development practices.
-
-### Personal Finance
-
-Insights on financial planning, investment strategies, and wealth management tips gathered from reputable sources and personal experiences.
+- **[Chunking Strategies](rag-chunking-strategies.md)**: Comparing naive approaches like recursive character splitting with semantic chunking methods
+- **[RAG Evaluation](rag-evaluation-with-ragas.md)**: Using the RAGAS framework to measure metrics like faithfulness, answer relevancy, and context precision
+- **[LangGraph Integration](rag-with-langgraph.md)**: Building RAG pipelines as stateful graphs for better orchestration and control
+- **[Results Comparison](rag-chunking-evaluation-results.md)**: Analyzing the impact of chunking strategies on evaluation metrics
+- **Vector Databases**: Working with vector stores to efficiently index and retrieve document chunks
+- **LLM Prompting**: Crafting effective prompts for context-aware generation using retrieved information
 
 ---
 
 ## Latest Insights
 
-### Article Summaries
+### Key Findings
 
-- **Title of Article 1**
-  - Summary: Brief overview and key takeaways.
-  
-- **Title of Article 2**
-  - Summary: Main points and relevance to my interests.
+- **Semantic Chunking Benefits**: Significant improvements in context precision (+27.4%) and answer relevancy (+16.4%) when using semantic chunking
+- **Performance Trade-offs**: Semantic chunking increases processing time but delivers better quality results for complex queries
+- **Query Type Impact**: Explanatory and multi-concept queries benefit most from semantic chunking approaches
+- **Evaluation Framework**: RAGAS provides specialized metrics that capture unique aspects of RAG performance beyond traditional NLP metrics
 
-### Book Reviews
+### Recent Experiments
 
-- **Title of Book 1**
-  - Review: Personal reflections and insights gained.
-  
-- **Title of Book 2**
-  - Review: Impact on my thinking and approach.
+- **Naive vs. Semantic Chunking**: Conducted side-by-side comparison using identical test queries and evaluation metrics
+- **LangGraph Implementation**: Built two parallel RAG pipelines using LangGraph for consistent comparison
+- **Hybrid Approaches**: Early testing of combined strategies that select chunking method based on document complexity
 
 ---
 
 ## Tools and Techniques
 
-### Note-Taking Apps
+### RAG Building Blocks
 
-Overview and comparison of note-taking applications like Evernote, Notion, and Roam Research, including their features and how I integrate them into my workflow.
+- **Text Splitting**: LangChain text splitters for both recursive character and semantic approaches
+- **Vector Stores**: Chroma DB for embedding storage and retrieval
+- **Embedding Models**: OpenAI's text-embedding-ada-002 for vector representations
+- **LLMs**: GPT-4 for answer generation
 
-### Digital Organization
+### Evaluation Methods
 
-Strategies for organizing digital files, folders, and documents effectively using cloud storage and file management tools.
-
----
-
-## Personal Growth
-
-### Learning Goals
-
-Current learning objectives, progress updates, and milestones achieved in various fields of interest.
-
-### Reflections
-
-Personal reflections on challenges faced, lessons learned, and growth experiences that shape my professional and personal journey.
+- **RAGAS Framework**: Specialized metrics for RAG evaluation
+- **A/B Testing**: Systematic comparison of different chunking strategies
+- **Performance Monitoring**: Response time and computational resource tracking
 
 ---
 
-## Collaboration and Sharing
+## Resources
 
-### Community Engagement
-
-Initiatives to engage with communities of practice, share knowledge, and contribute to collaborative projects.
-
-### Networking
-
-Strategies for building meaningful connections, networking tips, and experiences from industry events and professional meetups.
+- **[Audio Overview](rag-audio-overview.md)**: Comprehensive audio guide to building and evaluating RAG pipelines
+- **[Building with LangGraph](rag-with-langgraph.md)**: Building stateful RAG pipelines
+- **[Chunking Strategy Comparison](rag-chunking-strategies.md)**: Comparing naive and semantic approaches
+- **[Evaluation with RAGAS](rag-evaluation-with-ragas.md)**: Specialized metrics for RAG systems
+- **[Results Analysis](rag-chunking-evaluation-results.md)**: Comparing performance across chunking strategies
 
 ---
 
 ## Next Steps
 
-Plans for expanding my knowledge base, refining my PKM system, and setting future learning goals and milestones.
+After exploring basic and semantic chunking, I plan to experiment with:
 
----
+- Advanced chunking techniques like sliding window approaches
+- Multi-vector retrieval methods
+- Hybrid search combining semantic and keyword-based retrieval
+- Fine-tuning of LLMs specifically for RAG applications
+- Integration of structured knowledge alongside unstructured text
 
-This Markdown file serves as a dynamic repository where I continuously update and refine my knowledge across different domains. It's designed to facilitate seamless navigation, encourage exploration, and support ongoing personal and professional growth.

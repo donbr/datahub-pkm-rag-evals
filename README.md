@@ -1,49 +1,48 @@
-# Hello
+# RAG Evaluations
 
-![[Book.jpeg]]
+Welcome to my exploration of Retrieval-Augmented Generation (RAG) evaluation techniques and chunking strategies. This site documents my journey understanding how different approaches to document chunking affect RAG system performance.
 
-*(Source: https://learn.podium.school/english/book-parts/)*
+Start with the [Introduction](intro.md) to begin exploring!
 
-### Why PKM?
+## Quick Links
 
-With the vast amount of information we encounter daily, it’s easy to feel overwhelmed. PKM helps you:
-- Stay Organized: Keep all your important information in one place.
-- Boost Productivity: Save time by quickly finding the information you need.
-- Enhance Learning: Continuously build on what you know by systematically capturing new knowledge.
-- Support Decision-Making: Make informed decisions based on well-organized data and insights.
+- [Chunking Strategies](rag-chunking-strategies.md)
+- [Evaluation with RAGAS](rag-evaluation-with-ragas.md)
+- [Building with LangGraph](rag-with-langgraph.md)
+- [Results Comparison](rag-chunking-evaluation-results.md)
+- [Audio Overview](rag-audio-overview.md)
 
-> [!important]
-> I am saying something important here!
+## Overview
 
-> [!warning]
-> Just testing some callout blocks here.
+This repository contains a comprehensive exploration of Retrieval-Augmented Generation (RAG) evaluation techniques and chunking strategies. The content focuses on comparing different approaches to document chunking and their impact on RAG system performance as measured by specialized evaluation metrics.
 
-> [!done]
-> Test passed.
+## Content
 
-## Okay, I published the template. Now what?
+The site includes detailed information on:
 
-You can add as many markdown files to your GitHub repository as you like, and you can freely nest them in subdirectories. You can also enhance your content with data visualisation components and markdown features.
+- **RAG Chunking Strategies**: Comparing naive and semantic chunking approaches
+- **Evaluation with RAGAS**: Using specialized metrics for RAG assessment
+- **Result Comparisons**: Analyzing the impact of different chunking strategies
+- **Best Practices**: Recommendations for implementing effective RAG systems
 
-> Note: For a full list of supported markdown features visit [Markdown syntax support](https://datahub.io/@olayway/docs/Markdown%20syntax%20support)
+## Quick Start
 
-### How to take this template to the next level
+1. Explore the [Introduction](intro.md) for a high-level overview
+2. Learn about [RAG Chunking Strategies](rag-chunking-strategies.md)
+3. Understand [RAG Evaluation with RAGAS](rag-evaluation-with-ragas.md)
+4. Review the [Evaluation Results](rag-chunking-evaluation-results.md)
 
-<div class="middle-button-container">
-    <a href="https://datahub.io/docs/How%20to%20push%20an%20Obsidian%20vault%20to%20a%20Github%20repository" class="middle-button">How to publish my Obsidian vault</a>
-</div>
+## Key Findings
 
-<div class="middle-button-container">
-    <a href="https://datahub.io/@olayway/docs/Customize%20Your%20DataHub%20Cloud%20Site%20with%20CSS" class="middle-button">Customize your site with CSS and HTML</a>
-</div>
+- Semantic chunking significantly improves context precision and answer quality
+- Different query types benefit differently from chunking strategies
+- Trade-offs exist between processing speed and retrieval quality
+- Specialized evaluation frameworks like RAGAS provide insights traditional metrics miss
 
-<div class="middle-button-container">
-    <a href="https://datahub.io/@olayway/docs/Configuring%20Nav%20bar%20and%20SEO%20fields" class="middle-button">How to Configure Basic SEO Fields and Nav Bar</a>
-</div>
+## Resources
 
-If you want to explore more of what's possible:
+This site was built using markdown files with custom CSS styling. The content is based on practical experiments with LangChain, LangGraph, and the RAGAS evaluation framework.
 
-<div class="middle-button-container">
-    <a href="https://datahub.io/@olayway/docs" class="middle-button">Go to the docs</a>
-</div>
+## License
 
+This content is available under the MIT License.

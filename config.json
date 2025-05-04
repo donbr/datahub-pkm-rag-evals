@@ -1,15 +1,15 @@
 {
-    "title": "Welcome to my world!",
-  "description": "In an age where information is abundant and constantly evolving, managing knowledge efficiently is crucial. Welcome to my Personal Knowledge Management (PKM) system, a structured approach designed to help you capture, organize, and utilize information effectively.",
-  "logo": "Book.jpeg",
+  "title": "RAG Evaluation Techniques",
+  "description": "Exploring chunking strategies and evaluation methods for RAG systems",
+  "logo": "rag-evals.png",
   "navbarTitle": {
-    "logo": "Book.jpeg",
-    "text": "My PKM"
+    "logo": "rag-evals.png",
+    "text": "RAG Evaluations"
   },
   "author": {
-    "name": "Daniela",
-    "url": "https://datahub.io/",
-    "logo": "Book.jpeg"
+    "name": "RAG Explorer",
+    "url": "https://github.com/RAGExplorer",
+    "logo": "rag-evals.png"
   },
   "showSidebar": true
 }
