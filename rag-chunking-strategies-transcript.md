@@ -2,9 +2,9 @@
 
 - this was a misfire when using Gemini Deep Research, but I loved the visibility into their Text-To Speech process
 
-## **\<start\_of\_audio\> id: overview title: Audio Overview of Building and Evaluating RAG Pipelines**
+## **<start_of_audio> id: overview title: Audio Overview of Building and Evaluating RAG Pipelines**
 
-\<start\_of\_audio\> audio\_overview
+<start_of_audio> audio_overview
 
 duration: 5:00
 

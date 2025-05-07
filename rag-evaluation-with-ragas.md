@@ -1,6 +1,6 @@
 # **Retrieval-Augmented Generation: Concepts, Evaluation, and Orchestration**
 
-## **1\. Introduction**
+## **1. Introduction**
 
 ### **The Rise of Retrieval-Augmented Generation (RAG)**
 
@@ -18,7 +18,7 @@ The complexity arises because RAG systems consist of two primary components: a r
 
 This report provides a comprehensive, layered examination of Retrieval-Augmented Generation and its associated evaluation ecosystem. It begins by establishing the fundamental concepts of RAG, detailing its architecture, core components, and underlying purpose. Subsequently, it delves into the critical necessity of RAG evaluation, outlining the inherent challenges. A significant portion is dedicated to the Ragas framework, a prominent tool for RAG assessment, thoroughly explaining its core and agent-specific evaluation metrics. Techniques for optimizing the crucial retrieval step, particularly through various document chunking strategies with an emphasis on semantic chunking, are explored. The report also covers the use of synthetic data generation as a method to accelerate and enhance the evaluation process. Finally, it examines the tools and frameworks used for building and orchestrating RAG pipelines, focusing on the LangChain ecosystem, including LangChain Expression Language (LCEL), LangGraph, and the ReAct agent framework. The objective is to furnish a technically deep, structured understanding suitable for practitioners and researchers engaged in building or studying RAG systems.
 
-## **2\. Understanding Retrieval-Augmented Generation (RAG)**
+## **2. Understanding Retrieval-Augmented Generation (RAG)**
 
 ### **Defining RAG: Bridging LLMs and External Knowledge**
 
@@ -58,7 +58,7 @@ A typical RAG system comprises two main pipelines: an offline Indexing Pipeline 
 
 The seamless functioning of this entire workflow, from indexing to generation, is vital. The quality of the final output is directly contingent on the effectiveness of each preceding step. For instance, inadequate chunking during indexing can lead to poor retrieval, which in turn provides suboptimal context to the LLM, ultimately resulting in a flawed generated response, irrespective of the LLM's inherent capabilities. This interconnectedness underscores the importance of evaluating the pipeline holistically.
 
-## **3\. The Imperative of RAG Evaluation**
+## **3. The Imperative of RAG Evaluation**
 
 ### **Why Rigorous Evaluation is Non-Negotiable**
 
@@ -83,7 +83,7 @@ Evaluating RAG systems presents unique challenges compared to assessing standalo
 
 These challenges underscore the need for specialized evaluation frameworks and metrics tailored to the unique characteristics of RAG systems.
 
-## **4\. Introducing Ragas: A Comprehensive Evaluation Framework**
+## **4. Introducing Ragas: A Comprehensive Evaluation Framework**
 
 ### **Overview of the Ragas Framework**
 
@@ -123,7 +123,7 @@ Ragas offers several core metrics, each targeting a specific aspect of the RAG p
   * *Importance:* Context Precision assesses the retriever's ability to not just find potentially relevant documents, but to prioritize the most valuable pieces of information. High precision is crucial because the LLM's generation quality is heavily influenced by the quality of the context it receives.  
 * **Context Recall:**  
   * *Definition:* Context Recall measures the extent to which the retrieved context successfully captures all the necessary information required to answer the question comprehensively, comparing it against a ground truth answer.33 It assesses whether the retriever missed any crucial pieces of information.38  
-  * *Calculation:* This metric requires a ground truth answer (reference or ground\_truth) in addition to the question and the retrieved context. An LLM is used to analyze the ground truth answer and identify which of its sentences or claims can be attributed to (i.e., found within or supported by) the retrieved context.36 Context Recall is then calculated as the ratio of the number of ground truth sentences attributable to the context (True Positives) to the total number of sentences in the ground truth answer (True Positives \+ False Negatives, where False Negatives represent relevant information in the ground truth that was *not* found in the context).36  
+  * *Calculation:* This metric requires a ground truth answer (reference or ground_truth) in addition to the question and the retrieved context. An LLM is used to analyze the ground truth answer and identify which of its sentences or claims can be attributed to (i.e., found within or supported by) the retrieved context.36 Context Recall is then calculated as the ratio of the number of ground truth sentences attributable to the context (True Positives) to the total number of sentences in the ground truth answer (True Positives \+ False Negatives, where False Negatives represent relevant information in the ground truth that was *not* found in the context).36  
   * *Importance:* Context Recall is vital for ensuring that the retrieval process is sufficiently comprehensive. Low recall indicates that the retriever is failing to find essential information, which will inevitably lead to incomplete or inaccurate generated answers, even if the generator is highly faithful to the limited context provided. This is the only core Ragas metric that fundamentally relies on having a ground truth answer.35  
 * **Answer Correctness:**  
   * *Definition:* Answer Correctness provides a holistic evaluation of the generated answer's accuracy by comparing it against a ground truth answer.16 It considers both the factual alignment and the semantic similarity between the generated answer and the ideal response.36  
@@ -134,7 +134,7 @@ Ragas offers several core metrics, each targeting a specific aspect of the RAG p
 
 The suite of Ragas metrics provides a powerful diagnostic toolkit. By analyzing performance across these different dimensions, developers can gain a nuanced understanding of their RAG system's strengths and weaknesses. For example, a system exhibiting high Faithfulness but low Context Recall likely suffers from poor retrieval, whereas high Context Recall coupled with low Faithfulness suggests issues with the generation component or the prompting strategy guiding it. This ability to dissect performance is crucial for targeted and efficient iterative improvement.
 
-## **5\. Optimizing Retrieval: The Role of Document Chunking**
+## **5. Optimizing Retrieval: The Role of Document Chunking**
 
 The effectiveness of the retrieval component in a RAG system is heavily dependent on how the source documents are processed and indexed, particularly the strategy used for document chunking. Chunking is the process of dividing large documents into smaller, more manageable segments.27
 
@@ -203,7 +203,7 @@ The most common approach to semantic chunking relies on analyzing the similarity
 
 Semantic chunking represents a more sophisticated approach to preparing data for RAG, aiming to align chunk boundaries with the natural semantic flow of the text, thereby potentially enhancing the relevance and coherence of retrieved information. However, its increased complexity and computational requirements necessitate careful consideration of the trade-offs involved.
 
-## **6\. Enhancing Evaluation: Synthetic Data Generation**
+## **6. Enhancing Evaluation: Synthetic Data Generation**
 
 ### **The Role of Synthetic Data in RAG Evaluation**
 
@@ -235,7 +235,7 @@ Several approaches can be used to generate synthetic data for RAG evaluation:
 
 Regardless of the method, the quality of the synthetic data is crucial. Its usefulness depends heavily on the quality of the source documents provided and the capabilities of the LLM used for generation.46 While automation significantly speeds up the process, some level of human review and verification of the generated samples might still be necessary to ensure their validity and relevance.34 Furthermore, using low-quality examples in few-shot prompting can negatively impact the quality of the synthetically generated data.46 The key is not just volume, but generating data that effectively probes the RAG system's capabilities and potential failure points across a realistic spectrum of interactions.
 
-## **7\. Building and Orchestrating RAG Pipelines with LangChain**
+## **7. Building and Orchestrating RAG Pipelines with LangChain**
 
 ### **LangChain: A Framework for LLM Applications**
 
@@ -275,7 +275,7 @@ Within the LangChain ecosystem, the LangChain Expression Language (LCEL) offers 
 
 The core of LCEL involves the pipe operator (|) to connect Runnables sequentially and the .invoke() method to execute the chain.50 Primitives like RunnablePassthrough (to pass inputs through unchanged) and RunnableParallel (to run multiple Runnables concurrently on the same input) provide flow control.50
 
-LCEL is particularly well-suited for constructing relatively straightforward chains, such as the common RAG pattern of prompt | llm | output\_parser, or simple retrieval pipelines where its optimization and built-in features offer significant advantages.52
+LCEL is particularly well-suited for constructing relatively straightforward chains, such as the common RAG pattern of prompt | llm | output_parser, or simple retrieval pipelines where its optimization and built-in features offer significant advantages.52
 
 ### **LangGraph: Managing Complexity in Stateful, Multi-Step RAG Agents**
 
@@ -328,7 +328,7 @@ ReAct is typically implemented through careful prompt engineering (ReAct prompti
 
 By enabling agents to actively reason about their tasks and interact with external tools to gather necessary information, the ReAct framework allows RAG systems to move beyond simple document retrieval and answering towards more dynamic, capable, and interactive problem-solving.
 
-## **8\. Evaluating Agentic RAG Systems with Ragas**
+## **8. Evaluating Agentic RAG Systems with Ragas**
 
 ### **Beyond Simple Q\&A: Evaluating RAG Agents**
 
@@ -348,7 +348,7 @@ Recognizing this need, the Ragas framework provides specific metrics tailored fo
 
 * **Tool Call Accuracy:**  
   * *Definition:* This metric evaluates the agent's proficiency in identifying the correct tools, invoking them with the appropriate arguments, and doing so in the correct sequence required to fulfill a given task or sub-task.59  
-  * *Calculation:* It requires the user\_input that triggered the agent, the actual sequence of tool calls made by the agent (tool\_calls), and an ideal or reference\_tool\_calls sequence.60 The metric compares the agent's tool call sequence (including tool names, arguments, and order) against the reference sequence. By default, comparison uses exact string matching.60 If the agent's sequence perfectly matches the reference sequence, the score is 1.0; otherwise, it is 0\.60 Customization is possible, for instance, using semantic similarity metrics to compare natural language arguments instead of exact matching.60  
+  * *Calculation:* It requires the user_input that triggered the agent, the actual sequence of tool calls made by the agent (tool_calls), and an ideal or reference_tool_calls sequence.60 The metric compares the agent's tool call sequence (including tool names, arguments, and order) against the reference sequence. By default, comparison uses exact string matching.60 If the agent's sequence perfectly matches the reference sequence, the score is 1.0; otherwise, it is 0.60 Customization is possible, for instance, using semantic similarity metrics to compare natural language arguments instead of exact matching.60  
   * *Importance:* This is critical for agents, particularly those using the ReAct framework, that rely heavily on external tools. It verifies whether the agent is interacting correctly with its environment and using its available capabilities as intended. Incorrect tool use is a common failure mode in complex agents. Assessing the process (tool calls) is as important as assessing the final outcome.  
 * **Agent Goal Accuracy:**  
   * *Definition:* This metric assesses whether the agent, through its entire sequence of thoughts, actions, and generations, ultimately succeeded in achieving the user's intended goal or completing the requested task.38  
@@ -358,7 +358,7 @@ Recognizing this need, the Ragas framework provides specific metrics tailored fo
   * *Importance:* This metric provides an end-to-end evaluation of the agent's effectiveness from the user's perspective. While Tool Call Accuracy checks the intermediate steps, Goal Accuracy focuses on whether the agent ultimately delivered the desired result, reflecting a more task-oriented evaluation suitable for problem-solving agents.  
 * **Topic Adherence:**  
   * *Definition:* This metric measures the agent's ability to confine its responses and interactions within a predefined set of topics or domains.60 It's particularly relevant for specialized chatbots or assistants designed to operate within specific boundaries (e.g., a customer support bot for a particular product line).  
-  * *Calculation:* It requires the user\_input, the agent's response, and a list of allowed reference\_topics.60 An LLM is typically used to classify whether the agent's response pertains to any of the reference topics. Based on this classification across multiple interactions, Ragas can compute standard classification metrics:  
+  * *Calculation:* It requires the user_input, the agent's response, and a list of allowed reference_topics.60 An LLM is typically used to classify whether the agent's response pertains to any of the reference topics. Based on this classification across multiple interactions, Ragas can compute standard classification metrics:  
     * *Precision:* Proportion of answered queries adhering to allowed topics out of all answered queries.  
     * *Recall:* Proportion of answered queries adhering to allowed topics out of all queries that *should* have been answered (i.e., were on-topic).  
     * *F1 Score:* Harmonic mean of precision and recall. The specific mode (precision, recall, or f1) can be selected when using the metric.60  
@@ -366,7 +366,7 @@ Recognizing this need, the Ragas framework provides specific metrics tailored fo
 
 By utilizing these agent-specific metrics alongside the core RAG metrics, developers can gain a more comprehensive understanding of the performance of complex, interactive RAG-based agents, evaluating not just the quality of generated text but also the effectiveness of their reasoning, tool use, and goal completion processes.
 
-## **9\. Benchmarking and Iterative Improvement**
+## **9. Benchmarking and Iterative Improvement**
 
 ### **Leveraging Evaluation Metrics for Pipeline Enhancement**
 
@@ -381,7 +381,7 @@ The process typically involves:
    * Low Faithfulness points to problems in the generation step, where the LLM is not adhering to the provided context, possibly due to prompting issues or model limitations.  
    * Low Answer Relevancy suggests the generated answers are off-topic, too verbose, or incomplete, again likely a generation/prompting issue.  
    * For agents, low Tool Call Accuracy clearly indicates problems with tool selection or invocation logic, while low Agent Goal Accuracy signals an overall failure to meet the user's objective.  
-3. **Experimentation and Iteration:** Based on the diagnosis, modify specific components of the pipeline. This could involve trying different chunking strategies (e.g., switching from naive to semantic chunking 40), using a different embedding model, adjusting retrieval parameters (like top\_k), refining the LLM prompt, selecting a different LLM, or modifying agent logic.15  
+3. **Experimentation and Iteration:** Based on the diagnosis, modify specific components of the pipeline. This could involve trying different chunking strategies (e.g., switching from naive to semantic chunking 40), using a different embedding model, adjusting retrieval parameters (like top_k), refining the LLM prompt, selecting a different LLM, or modifying agent logic.15  
 4. **Benchmarking:** Re-evaluate the modified pipeline using the same benchmark dataset and metrics.49 Compare the new scores against the previous baseline to determine if the changes resulted in an improvement. Frameworks like LangChain or LlamaIndex facilitate building these different pipeline configurations for comparison.61  
 5. **Repeat:** Continue this cycle of evaluation, diagnosis, modification, and benchmarking until the desired performance level is achieved across the relevant metrics.15
 
@@ -401,7 +401,7 @@ Moving a RAG system from a prototype or experimental stage to a robust, producti
 
 Addressing these operational challenges is as critical to the success of a production RAG system as achieving high scores on core evaluation metrics during development. It requires a shift towards robust engineering practices alongside AI/ML experimentation.
 
-## **10\. Conclusion**
+## **10. Conclusion**
 
 Retrieval-Augmented Generation has established itself as a pivotal technique for overcoming the inherent limitations of Large Language Models. By dynamically grounding LLM responses in external knowledge sources, RAG significantly enhances factual accuracy, provides access to timely information, enables domain specialization, and fosters greater user trust through potential transparency. However, the power of RAG comes with the nuance of complexity. Building effective RAG systems requires careful design and optimization of both the retrieval and generation components, as the performance of the entire pipeline hinges on the successful synergy between them.
 
@@ -412,66 +412,66 @@ The field of RAG continues to evolve rapidly. Future directions likely involve e
 #### **Works cited**
 
 1. What is Retrieval-Augmented Generation (RAG)? | Google Cloud, accessed May 4, 2025, [https://cloud.google.com/use-cases/retrieval-augmented-generation](https://cloud.google.com/use-cases/retrieval-augmented-generation)  
-2. Retrieval Augmented Generation (RAG) \- Pinecone, accessed May 4, 2025, [https://www.pinecone.io/learn/retrieval-augmented-generation/](https://www.pinecone.io/learn/retrieval-augmented-generation/)  
-3. Retrieval-augmented generation \- Wikipedia, accessed May 4, 2025, [https://en.wikipedia.org/wiki/Retrieval-augmented\_generation](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)  
-4. Reducing hallucination in structured outputs via Retrieval-Augmented Generation \- arXiv, accessed May 4, 2025, [https://arxiv.org/html/2404.08189v1](https://arxiv.org/html/2404.08189v1)  
-5. What is RAG? \- Retrieval-Augmented Generation AI Explained \- AWS, accessed May 4, 2025, [https://aws.amazon.com/what-is/retrieval-augmented-generation/](https://aws.amazon.com/what-is/retrieval-augmented-generation/)  
-6. What is Retrieval Augmented Generation (RAG)? \- Databricks, accessed May 4, 2025, [https://www.databricks.com/glossary/retrieval-augmented-generation-rag](https://www.databricks.com/glossary/retrieval-augmented-generation-rag)  
-7. What is Retrieval-Augmented Generation (RAG)? A Practical Guide \- K2view, accessed May 4, 2025, [https://www.k2view.com/what-is-retrieval-augmented-generation](https://www.k2view.com/what-is-retrieval-augmented-generation)  
-8. Retrieval augmented generation (rag) \- LangChain.js, accessed May 4, 2025, [https://js.langchain.com/docs/concepts/rag/](https://js.langchain.com/docs/concepts/rag/)  
-9. What is retrieval augmented generation (RAG) \[examples included\] \- SuperAnnotate, accessed May 4, 2025, [https://www.superannotate.com/blog/rag-explained](https://www.superannotate.com/blog/rag-explained)  
-10. Q\&A with RAG \- ️ LangChain, accessed May 4, 2025, [https://python.langchain.com/v0.1/docs/use\_cases/question\_answering/](https://python.langchain.com/v0.1/docs/use_cases/question_answering/)  
-11. What is retrieval-augmented generation (RAG)? \- IBM Research, accessed May 4, 2025, [https://research.ibm.com/blog/retrieval-augmented-generation-RAG](https://research.ibm.com/blog/retrieval-augmented-generation-RAG)  
-12. Retrieval Augmented Generation (RAG) in Azure AI Search \- Learn Microsoft, accessed May 4, 2025, [https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)  
-13. Retrieval Augmented Generation: Everything You Need to Know About RAG in AI \- WEKA, accessed May 4, 2025, [https://www.weka.io/learn/guide/ai-ml/retrieval-augmented-generation/](https://www.weka.io/learn/guide/ai-ml/retrieval-augmented-generation/)  
+2. Retrieval Augmented Generation (RAG) - Pinecone, accessed May 4, 2025, [https://www.pinecone.io/learn/retrieval-augmented-generation/](https://www.pinecone.io/learn/retrieval-augmented-generation/)  
+3. Retrieval-augmented generation - Wikipedia, accessed May 4, 2025, [https://en.wikipedia.org/wiki/Retrieval-augmented_generation](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)  
+4. Reducing hallucination in structured outputs via Retrieval-Augmented Generation - arXiv, accessed May 4, 2025, [https://arxiv.org/html/2404.08189v1](https://arxiv.org/html/2404.08189v1)  
+5. What is RAG? - Retrieval-Augmented Generation AI Explained - AWS, accessed May 4, 2025, [https://aws.amazon.com/what-is/retrieval-augmented-generation/](https://aws.amazon.com/what-is/retrieval-augmented-generation/)  
+6. What is Retrieval Augmented Generation (RAG)? - Databricks, accessed May 4, 2025, [https://www.databricks.com/glossary/retrieval-augmented-generation-rag](https://www.databricks.com/glossary/retrieval-augmented-generation-rag)  
+7. What is Retrieval-Augmented Generation (RAG)? A Practical Guide - K2view, accessed May 4, 2025, [https://www.k2view.com/what-is-retrieval-augmented-generation](https://www.k2view.com/what-is-retrieval-augmented-generation)  
+8. Retrieval augmented generation (rag) - LangChain.js, accessed May 4, 2025, [https://js.langchain.com/docs/concepts/rag/](https://js.langchain.com/docs/concepts/rag/)  
+9. What is retrieval augmented generation (RAG) [examples included] - SuperAnnotate, accessed May 4, 2025, [https://www.superannotate.com/blog/rag-explained](https://www.superannotate.com/blog/rag-explained)  
+10. Q\&A with RAG - ️ LangChain, accessed May 4, 2025, [https://python.langchain.com/v0.1/docs/use_cases/question_answering/](https://python.langchain.com/v0.1/docs/use_cases/question_answering/)  
+11. What is retrieval-augmented generation (RAG)? - IBM Research, accessed May 4, 2025, [https://research.ibm.com/blog/retrieval-augmented-generation-RAG](https://research.ibm.com/blog/retrieval-augmented-generation-RAG)  
+12. Retrieval Augmented Generation (RAG) in Azure AI Search - Learn Microsoft, accessed May 4, 2025, [https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)  
+13. Retrieval Augmented Generation: Everything You Need to Know About RAG in AI - WEKA, accessed May 4, 2025, [https://www.weka.io/learn/guide/ai-ml/retrieval-augmented-generation/](https://www.weka.io/learn/guide/ai-ml/retrieval-augmented-generation/)  
 14. RAG systems: Best practices to master evaluation for accurate and reliable AI. | Google Cloud Blog, accessed May 4, 2025, [https://cloud.google.com/blog/products/ai-machine-learning/optimizing-rag-retrieval](https://cloud.google.com/blog/products/ai-machine-learning/optimizing-rag-retrieval)  
-15. How we are doing RAG AI evaluation in Atlas \- ClearPeople, accessed May 4, 2025, [https://www.clearpeople.com/blog/how-we-are-doing-rag-ai-evaluation-in-atlas](https://www.clearpeople.com/blog/how-we-are-doing-rag-ai-evaluation-in-atlas)  
-16. arXiv:2309.15217v1 \[cs.CL\] 26 Sep 2023, accessed May 4, 2025, [https://arxiv.org/pdf/2309.15217](https://arxiv.org/pdf/2309.15217)  
-17. Reducing Hallucinations of Medical Multimodal Large Language Models with Visual Retrieval-Augmented Generation \- arXiv, accessed May 4, 2025, [https://arxiv.org/html/2502.15040v1](https://arxiv.org/html/2502.15040v1)  
-18. A Multi-Agent Hybrid Framework for Reducing Hallucinations and Enhancing LLM Reasoning through RAG and Incremental Knowledge Graph Learning Integration \- arXiv, accessed May 4, 2025, [https://arxiv.org/html/2503.13514v1](https://arxiv.org/html/2503.13514v1)  
-19. A Multi-Agent Hybrid Framework for Reducing Hallucinations and Enhancing LLM Reasoning through RAG and Incremental Kn \- arXiv, accessed May 4, 2025, [https://arxiv.org/pdf/2503.13514](https://arxiv.org/pdf/2503.13514)  
-20. LettuceDetect: A Hallucination Detection Framework for RAG Applications \- arXiv, accessed May 4, 2025, [https://arxiv.org/html/2502.17125v1](https://arxiv.org/html/2502.17125v1)  
-21. arXiv:2502.17125v1 \[cs.CL\] 24 Feb 2025, accessed May 4, 2025, [https://arxiv.org/pdf/2502.17125?](https://arxiv.org/pdf/2502.17125)  
+15. How we are doing RAG AI evaluation in Atlas - ClearPeople, accessed May 4, 2025, [https://www.clearpeople.com/blog/how-we-are-doing-rag-ai-evaluation-in-atlas](https://www.clearpeople.com/blog/how-we-are-doing-rag-ai-evaluation-in-atlas)  
+16. arXiv:2309.15217v1 [cs.CL] 26 Sep 2023, accessed May 4, 2025, [https://arxiv.org/pdf/2309.15217](https://arxiv.org/pdf/2309.15217)  
+17. Reducing Hallucinations of Medical Multimodal Large Language Models with Visual Retrieval-Augmented Generation - arXiv, accessed May 4, 2025, [https://arxiv.org/html/2502.15040v1](https://arxiv.org/html/2502.15040v1)  
+18. A Multi-Agent Hybrid Framework for Reducing Hallucinations and Enhancing LLM Reasoning through RAG and Incremental Knowledge Graph Learning Integration - arXiv, accessed May 4, 2025, [https://arxiv.org/html/2503.13514v1](https://arxiv.org/html/2503.13514v1)  
+19. A Multi-Agent Hybrid Framework for Reducing Hallucinations and Enhancing LLM Reasoning through RAG and Incremental Kn - arXiv, accessed May 4, 2025, [https://arxiv.org/pdf/2503.13514](https://arxiv.org/pdf/2503.13514)  
+20. LettuceDetect: A Hallucination Detection Framework for RAG Applications - arXiv, accessed May 4, 2025, [https://arxiv.org/html/2502.17125v1](https://arxiv.org/html/2502.17125v1)  
+21. arXiv:2502.17125v1 [cs.CL] 24 Feb 2025, accessed May 4, 2025, [https://arxiv.org/pdf/2502.17125?](https://arxiv.org/pdf/2502.17125)  
 22. Ingest-And-Ground: Dispelling Hallucinations from Continually-Pretrained LLMs with RAG, accessed May 4, 2025, [https://arxiv.org/html/2410.02825v2](https://arxiv.org/html/2410.02825v2)  
-23. A benchmark for evaluating conversational RAG \- IBM Research, accessed May 4, 2025, [https://research.ibm.com/blog/conversational-RAG-benchmark](https://research.ibm.com/blog/conversational-RAG-benchmark)  
-24. How to Generate Synthetic Dataset for RAG? \- Future Skills Academy, accessed May 4, 2025, [https://futureskillsacademy.com/blog/generate-synthetic-dataset-for-rag/](https://futureskillsacademy.com/blog/generate-synthetic-dataset-for-rag/)  
-25. Build a Retrieval Augmented Generation (RAG) App: Part 1 \- LangChain.js, accessed May 4, 2025, [https://js.langchain.com/docs/tutorials/rag/](https://js.langchain.com/docs/tutorials/rag/)  
-26. Retrieval \- ️ LangChain, accessed May 4, 2025, [https://python.langchain.com/v0.1/docs/modules/data\_connection/](https://python.langchain.com/v0.1/docs/modules/data_connection/)  
-27. Chunking strategies for RAG tutorial using Granite \- IBM, accessed May 4, 2025, [https://www.ibm.com/think/tutorials/chunking-strategies-for-rag-with-langchain-watsonx-ai](https://www.ibm.com/think/tutorials/chunking-strategies-for-rag-with-langchain-watsonx-ai)  
-28. How to Chunk Documents for RAG \- Multimodal.dev, accessed May 4, 2025, [https://www.multimodal.dev/post/how-to-chunk-documents-for-rag](https://www.multimodal.dev/post/how-to-chunk-documents-for-rag)  
-29. 15 Chunking Techniques to Build Exceptional RAGs Systems \- Analytics Vidhya, accessed May 4, 2025, [https://www.analyticsvidhya.com/blog/2024/10/chunking-techniques-to-build-exceptional-rag-systems/](https://www.analyticsvidhya.com/blog/2024/10/chunking-techniques-to-build-exceptional-rag-systems/)  
+23. A benchmark for evaluating conversational RAG - IBM Research, accessed May 4, 2025, [https://research.ibm.com/blog/conversational-RAG-benchmark](https://research.ibm.com/blog/conversational-RAG-benchmark)  
+24. How to Generate Synthetic Dataset for RAG? - Future Skills Academy, accessed May 4, 2025, [https://futureskillsacademy.com/blog/generate-synthetic-dataset-for-rag/](https://futureskillsacademy.com/blog/generate-synthetic-dataset-for-rag/)  
+25. Build a Retrieval Augmented Generation (RAG) App: Part 1 - LangChain.js, accessed May 4, 2025, [https://js.langchain.com/docs/tutorials/rag/](https://js.langchain.com/docs/tutorials/rag/)  
+26. Retrieval - ️ LangChain, accessed May 4, 2025, [https://python.langchain.com/v0.1/docs/modules/data_connection/](https://python.langchain.com/v0.1/docs/modules/data_connection/)  
+27. Chunking strategies for RAG tutorial using Granite - IBM, accessed May 4, 2025, [https://www.ibm.com/think/tutorials/chunking-strategies-for-rag-with-langchain-watsonx-ai](https://www.ibm.com/think/tutorials/chunking-strategies-for-rag-with-langchain-watsonx-ai)  
+28. How to Chunk Documents for RAG - Multimodal.dev, accessed May 4, 2025, [https://www.multimodal.dev/post/how-to-chunk-documents-for-rag](https://www.multimodal.dev/post/how-to-chunk-documents-for-rag)  
+29. 15 Chunking Techniques to Build Exceptional RAGs Systems - Analytics Vidhya, accessed May 4, 2025, [https://www.analyticsvidhya.com/blog/2024/10/chunking-techniques-to-build-exceptional-rag-systems/](https://www.analyticsvidhya.com/blog/2024/10/chunking-techniques-to-build-exceptional-rag-systems/)  
 30. Build a Retrieval Augmented Generation (RAG) App: Part 1 | 🦜️ LangChain, accessed May 4, 2025, [https://python.langchain.com/docs/tutorials/rag/](https://python.langchain.com/docs/tutorials/rag/)  
-31. How to Measure RAG from Accuracy to Relevance? \- \- Datategy, accessed May 4, 2025, [https://www.datategy.net/2024/09/27/how-to-measure-rag-from-accuracy-to-relevance/](https://www.datategy.net/2024/09/27/how-to-measure-rag-from-accuracy-to-relevance/)  
-32. \[2309.15217\] Ragas: Automated Evaluation of Retrieval Augmented Generation \- arXiv, accessed May 4, 2025, [https://arxiv.org/abs/2309.15217](https://arxiv.org/abs/2309.15217)  
-33. Evaluate RAG pipeline using Ragas in Python with watsonx \- IBM, accessed May 4, 2025, [https://www.ibm.com/think/tutorials/ragas-rag-evaluation-python-watsonx](https://www.ibm.com/think/tutorials/ragas-rag-evaluation-python-watsonx)  
-34. Observability Tools. \- Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/latest/howtos/observability/](https://docs.ragas.io/en/latest/howtos/observability/)  
-35. Get better RAG responses with Ragas \- Redis, accessed May 4, 2025, [https://redis.io/blog/get-better-rag-responses-with-ragas/](https://redis.io/blog/get-better-rag-responses-with-ragas/)  
+31. How to Measure RAG from Accuracy to Relevance? - - Datategy, accessed May 4, 2025, [https://www.datategy.net/2024/09/27/how-to-measure-rag-from-accuracy-to-relevance/](https://www.datategy.net/2024/09/27/how-to-measure-rag-from-accuracy-to-relevance/)  
+32. [2309.15217] Ragas: Automated Evaluation of Retrieval Augmented Generation - arXiv, accessed May 4, 2025, [https://arxiv.org/abs/2309.15217](https://arxiv.org/abs/2309.15217)  
+33. Evaluate RAG pipeline using Ragas in Python with watsonx - IBM, accessed May 4, 2025, [https://www.ibm.com/think/tutorials/ragas-rag-evaluation-python-watsonx](https://www.ibm.com/think/tutorials/ragas-rag-evaluation-python-watsonx)  
+34. Observability Tools. - Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/latest/howtos/observability/](https://docs.ragas.io/en/latest/howtos/observability/)  
+35. Get better RAG responses with Ragas - Redis, accessed May 4, 2025, [https://redis.io/blog/get-better-rag-responses-with-ragas/](https://redis.io/blog/get-better-rag-responses-with-ragas/)  
 36. Metrics | Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/v0.1.21/references/metrics.html](https://docs.ragas.io/en/v0.1.21/references/metrics.html)  
-37. Answer Relevance \- Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/v0.1.21/concepts/metrics/answer\_relevance.html](https://docs.ragas.io/en/v0.1.21/concepts/metrics/answer_relevance.html)  
-38. Evaluate Amazon Bedrock Agents with Ragas and LLM-as-a-judge \- AWS, accessed May 4, 2025, [https://aws.amazon.com/blogs/machine-learning/evaluate-amazon-bedrock-agents-with-ragas-and-llm-as-a-judge/](https://aws.amazon.com/blogs/machine-learning/evaluate-amazon-bedrock-agents-with-ragas-and-llm-as-a-judge/)  
-39. 8 Types of Chunking for RAG Systems \- Analytics Vidhya, accessed May 4, 2025, [https://www.analyticsvidhya.com/blog/2025/02/types-of-chunking-for-rag-systems/](https://www.analyticsvidhya.com/blog/2025/02/types-of-chunking-for-rag-systems/)  
-40. Improving RAG Performance: WTF is Semantic Chunking? \- Fuzzy ..., accessed May 4, 2025, [https://www.fuzzylabs.ai/blog-post/improving-rag-performance-semantic-chunking](https://www.fuzzylabs.ai/blog-post/improving-rag-performance-semantic-chunking)  
-41. Semantic Chunking for RAG: Better Context, Better Results \- Multimodal.dev, accessed May 4, 2025, [https://www.multimodal.dev/post/semantic-chunking-for-rag](https://www.multimodal.dev/post/semantic-chunking-for-rag)  
-42. Retrieval-Augmented Generation (RAG) with Milvus and LangChain, accessed May 4, 2025, [https://milvus.io/docs/integrate\_with\_langchain.md](https://milvus.io/docs/integrate_with_langchain.md)  
-43. Advanced RAG on Hugging Face documentation using LangChain \- Hugging Face Open-Source AI Cookbook, accessed May 4, 2025, [https://huggingface.co/learn/cookbook/advanced\_rag](https://huggingface.co/learn/cookbook/advanced_rag)  
-44. The Power of Semantic Chunking in AI: Unlocking Contextual Understanding \- Jaxon, Inc., accessed May 4, 2025, [https://jaxon.ai/the-power-of-semantic-chunking-in-ai-unlocking-contextual-understanding/](https://jaxon.ai/the-power-of-semantic-chunking-in-ai-unlocking-contextual-understanding/)  
+37. Answer Relevance - Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/v0.1.21/concepts/metrics/answer_relevance.html](https://docs.ragas.io/en/v0.1.21/concepts/metrics/answer_relevance.html)  
+38. Evaluate Amazon Bedrock Agents with Ragas and LLM-as-a-judge - AWS, accessed May 4, 2025, [https://aws.amazon.com/blogs/machine-learning/evaluate-amazon-bedrock-agents-with-ragas-and-llm-as-a-judge/](https://aws.amazon.com/blogs/machine-learning/evaluate-amazon-bedrock-agents-with-ragas-and-llm-as-a-judge/)  
+39. 8 Types of Chunking for RAG Systems - Analytics Vidhya, accessed May 4, 2025, [https://www.analyticsvidhya.com/blog/2025/02/types-of-chunking-for-rag-systems/](https://www.analyticsvidhya.com/blog/2025/02/types-of-chunking-for-rag-systems/)  
+40. Improving RAG Performance: WTF is Semantic Chunking? - Fuzzy ..., accessed May 4, 2025, [https://www.fuzzylabs.ai/blog-post/improving-rag-performance-semantic-chunking](https://www.fuzzylabs.ai/blog-post/improving-rag-performance-semantic-chunking)  
+41. Semantic Chunking for RAG: Better Context, Better Results - Multimodal.dev, accessed May 4, 2025, [https://www.multimodal.dev/post/semantic-chunking-for-rag](https://www.multimodal.dev/post/semantic-chunking-for-rag)  
+42. Retrieval-Augmented Generation (RAG) with Milvus and LangChain, accessed May 4, 2025, [https://milvus.io/docs/integrate_with_langchain.md](https://milvus.io/docs/integrate_with_langchain.md)  
+43. Advanced RAG on Hugging Face documentation using LangChain - Hugging Face Open-Source AI Cookbook, accessed May 4, 2025, [https://huggingface.co/learn/cookbook/advanced_rag](https://huggingface.co/learn/cookbook/advanced_rag)  
+44. The Power of Semantic Chunking in AI: Unlocking Contextual Understanding - Jaxon, Inc., accessed May 4, 2025, [https://jaxon.ai/the-power-of-semantic-chunking-in-ai-unlocking-contextual-understanding/](https://jaxon.ai/the-power-of-semantic-chunking-in-ai-unlocking-contextual-understanding/)  
 45. Semantic Chunking | VectorHub by Superlinked, accessed May 4, 2025, [https://superlinked.com/vectorhub/articles/semantic-chunking](https://superlinked.com/vectorhub/articles/semantic-chunking)  
-46. Generating Synthetic Dataset for RAG \- Prompt Engineering Guide, accessed May 4, 2025, [https://www.promptingguide.ai/applications/synthetic\_rag](https://www.promptingguide.ai/applications/synthetic_rag)  
+46. Generating Synthetic Dataset for RAG - Prompt Engineering Guide, accessed May 4, 2025, [https://www.promptingguide.ai/applications/synthetic_rag](https://www.promptingguide.ai/applications/synthetic_rag)  
 47. Ragas Synthetic Data Generation Methods | Restackio, accessed May 4, 2025, [https://www.restack.io/p/ragas-answer-synthetic-data-generation-methods-cat-ai](https://www.restack.io/p/ragas-answer-synthetic-data-generation-methods-cat-ai)  
-48. Mastering Data: Generate Synthetic Data for RAG in Just $10 \- Galileo AI, accessed May 4, 2025, [https://www.galileo.ai/blog/synthetic-data-rag](https://www.galileo.ai/blog/synthetic-data-rag)  
-49. Benchmarking RAG Pipelines With A \- LlamaIndex, accessed May 4, 2025, [https://docs.llamaindex.ai/en/stable/examples/llama\_dataset/labelled-rag-datasets/](https://docs.llamaindex.ai/en/stable/examples/llama_dataset/labelled-rag-datasets/)  
-50. Unleashing the Power of LangChain Expression Language (LCEL): from proof of concept to production \- Artefact, accessed May 4, 2025, [https://www.artefact.com/blog/unleashing-the-power-of-langchain-expression-language-lcel-from-proof-of-concept-to-production/](https://www.artefact.com/blog/unleashing-the-power-of-langchain-expression-language-lcel-from-proof-of-concept-to-production/)  
-51. Complete Guide to Building LangChain Agents with the LangGraph Framework \- Zep, accessed May 4, 2025, [https://www.getzep.com/ai-agents/langchain-agents-langgraph](https://www.getzep.com/ai-agents/langchain-agents-langgraph)  
+48. Mastering Data: Generate Synthetic Data for RAG in Just $10 - Galileo AI, accessed May 4, 2025, [https://www.galileo.ai/blog/synthetic-data-rag](https://www.galileo.ai/blog/synthetic-data-rag)  
+49. Benchmarking RAG Pipelines With A - LlamaIndex, accessed May 4, 2025, [https://docs.llamaindex.ai/en/stable/examples/llama_dataset/labelled-rag-datasets/](https://docs.llamaindex.ai/en/stable/examples/llama_dataset/labelled-rag-datasets/)  
+50. Unleashing the Power of LangChain Expression Language (LCEL): from proof of concept to production - Artefact, accessed May 4, 2025, [https://www.artefact.com/blog/unleashing-the-power-of-langchain-expression-language-lcel-from-proof-of-concept-to-production/](https://www.artefact.com/blog/unleashing-the-power-of-langchain-expression-language-lcel-from-proof-of-concept-to-production/)  
+51. Complete Guide to Building LangChain Agents with the LangGraph Framework - Zep, accessed May 4, 2025, [https://www.getzep.com/ai-agents/langchain-agents-langgraph](https://www.getzep.com/ai-agents/langchain-agents-langgraph)  
 52. LangChain Expression Language (LCEL) | 🦜️ Langchain, accessed May 4, 2025, [https://js.langchain.com/docs/concepts/lcel/](https://js.langchain.com/docs/concepts/lcel/)  
-53. LangChain Expression Language Explained \- Pinecone, accessed May 4, 2025, [https://www.pinecone.io/learn/series/langchain/langchain-expression-language/](https://www.pinecone.io/learn/series/langchain/langchain-expression-language/)  
-54. LangGraph \- GitHub Pages, accessed May 4, 2025, [https://langchain-ai.github.io/langgraph/](https://langchain-ai.github.io/langgraph/)  
-55. LangGraph \- LangChain, accessed May 4, 2025, [https://www.langchain.com/langgraph](https://www.langchain.com/langgraph)  
+53. LangChain Expression Language Explained - Pinecone, accessed May 4, 2025, [https://www.pinecone.io/learn/series/langchain/langchain-expression-language/](https://www.pinecone.io/learn/series/langchain/langchain-expression-language/)  
+54. LangGraph - GitHub Pages, accessed May 4, 2025, [https://langchain-ai.github.io/langgraph/](https://langchain-ai.github.io/langgraph/)  
+55. LangGraph - LangChain, accessed May 4, 2025, [https://www.langchain.com/langgraph](https://www.langchain.com/langgraph)  
 56. What is a ReAct Agent? | IBM, accessed May 4, 2025, [https://www.ibm.com/think/topics/react-agent](https://www.ibm.com/think/topics/react-agent)  
-57. Understanding React Agent in LangChain Engineering \- Raga AI, accessed May 4, 2025, [https://raga.ai/blogs/react-agent-llm](https://raga.ai/blogs/react-agent-llm)  
-58. Using LangChain ReAct Agents to Answer Complex Questions \- Airbyte, accessed May 4, 2025, [https://airbyte.com/data-engineering-resources/using-langchain-react-agents](https://airbyte.com/data-engineering-resources/using-langchain-react-agents)  
+57. Understanding React Agent in LangChain Engineering - Raga AI, accessed May 4, 2025, [https://raga.ai/blogs/react-agent-llm](https://raga.ai/blogs/react-agent-llm)  
+58. Using LangChain ReAct Agents to Answer Complex Questions - Airbyte, accessed May 4, 2025, [https://airbyte.com/data-engineering-resources/using-langchain-react-agents](https://airbyte.com/data-engineering-resources/using-langchain-react-agents)  
 59. Ragas | Arize Docs, accessed May 4, 2025, [https://docs.arize.com/arize/ragas](https://docs.arize.com/arize/ragas)  
-60. Agentic or Tool use \- Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/stable/concepts/metrics/available\_metrics/agents/](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/)  
-61. Benchmarking and Evaluating RAG \- Part 1 \- NeoITO Blog, accessed May 4, 2025, [https://www.neoito.com/blog/benchmarking-and-evaluating-rag-part-1/](https://www.neoito.com/blog/benchmarking-and-evaluating-rag-part-1/)  
-62. Evaluate a simple RAG system \- Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/stable/getstarted/rag\_eval/](https://docs.ragas.io/en/stable/getstarted/rag_eval/)  
-63. How do I improve RAG extracted document list : r/LangChain \- Reddit, accessed May 4, 2025, [https://www.reddit.com/r/LangChain/comments/199ejhc/how\_do\_i\_improve\_rag\_extracted\_document\_list/](https://www.reddit.com/r/LangChain/comments/199ejhc/how_do_i_improve_rag_extracted_document_list/)  
-64. \[2410.02825\] Ingest-And-Ground: Dispelling Hallucinations from Continually-Pretrained LLMs with RAG \- arXiv, accessed May 4, 2025, [https://arxiv.org/abs/2410.02825](https://arxiv.org/abs/2410.02825)
+60. Agentic or Tool use - Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/)  
+61. Benchmarking and Evaluating RAG - Part 1 - NeoITO Blog, accessed May 4, 2025, [https://www.neoito.com/blog/benchmarking-and-evaluating-rag-part-1/](https://www.neoito.com/blog/benchmarking-and-evaluating-rag-part-1/)  
+62. Evaluate a simple RAG system - Ragas, accessed May 4, 2025, [https://docs.ragas.io/en/stable/getstarted/rag_eval/](https://docs.ragas.io/en/stable/getstarted/rag_eval/)  
+63. How do I improve RAG extracted document list : r/LangChain - Reddit, accessed May 4, 2025, [https://www.reddit.com/r/LangChain/comments/199ejhc/how_do_i_improve_rag_extracted_document_list/](https://www.reddit.com/r/LangChain/comments/199ejhc/how_do_i_improve_rag_extracted_document_list/)  
+64. [2410.02825] Ingest-And-Ground: Dispelling Hallucinations from Continually-Pretrained LLMs with RAG - arXiv, accessed May 4, 2025, [https://arxiv.org/abs/2410.02825](https://arxiv.org/abs/2410.02825)
