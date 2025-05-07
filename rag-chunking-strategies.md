@@ -242,8 +242,10 @@ The most common approach to semantic chunking, implemented in LangChain's Semant
 LangChain provides the SemanticChunker class (currently in langchain_experimental) for this purpose.46
 
 1. **Installation:** Ensure langchain_experimental and an embedding provider library (e.g., langchain_openai) are installed.  
-   Bash  
+
+   ```bash
    pip install langchain_experimental langchain_openai
+   ```
 
 2. **Instantiation:** Create an instance of SemanticChunker, providing an embedding model instance.74  
 
